@@ -1,0 +1,48 @@
+class Solution {
+    public int maxDistance(String st, int k) {
+        // Initialize direction counters
+        int north = 0;
+        int south = 0;
+        int east = 0;
+        int west = 0;
+
+        // Store the maximum Manhattan distance found so far
+        int result = 0;
+
+        // Convert input string to a character array for efficient traversal
+        char[] chars = st.toCharArray();
+
+        // Iterate through each movement character in the input string
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+
+            // Count how many times each direction has occurred so far
+            if (c == 'N') {
+                north++;
+            } else if (c == 'S') {
+                south++;
+            } else if (c == 'E') {
+                east++;
+            } else if (c == 'W') {
+                west++;
+            }
+
+            // Calculate the current Manhattan distance from origin
+            int currentDistance = Math.abs(north - south) + Math.abs(east - west);
+
+            // Total steps taken so far = i + 1
+            // Non-contributing steps = (i + 1 - currentDistance)
+            // We can change up to k steps, and each change can contribute max +2 to distance
+            int possibleBoost = Math.min(2 * k, i + 1 - currentDistance);
+
+            // Final distance = current + possible contribution from allowed changes
+            int maxReachableDistance = currentDistance + possibleBoost;
+
+            // Update result if this is the best we've seen
+            result = Math.max(result, maxReachableDistance);
+        }
+
+        // Return the maximum distance found
+        return result;
+    }
+}
