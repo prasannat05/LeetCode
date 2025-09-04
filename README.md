@@ -1,2 +1,82 @@
 # LeetCode
 LeetCode Problems Uploading For References!!
+
+<!DOCTYPE html>
+<html ng-app="authApp">
+<head>
+  <title>Login / Register Validation</title>
+  <script src="angular.min.js"></script> <!-- offline angularjs -->
+</head>
+<body ng-controller="AuthCtrl">
+
+  <h2>Login</h2>
+  <form name="loginForm" ng-submit="login(loginForm.$valid)" novalidate>
+    Email: 
+    <input type="email" name="email" ng-model="loginData.email" required>
+    <span ng-show="loginForm.email.$touched && loginForm.email.$invalid">Valid Email required</span>
+    <br><br>
+
+    Password: 
+    <input type="password" name="password" ng-model="loginData.password" required ng-minlength="6">
+    <span ng-show="loginForm.password.$touched && loginForm.password.$error.required">Password required</span>
+    <span ng-show="loginForm.password.$error.minlength">Min 6 characters</span>
+    <br><br>
+
+    <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+  </form>
+
+  <hr>
+
+  <h2>Register</h2>
+  <form name="registerForm" ng-submit="register(registerForm.$valid)" novalidate>
+    Name: 
+    <input type="text" name="name" ng-model="registerData.name" required>
+    <span ng-show="registerForm.name.$touched && registerForm.name.$invalid">Name required</span>
+    <br><br>
+
+    Email: 
+    <input type="email" name="email" ng-model="registerData.email" required>
+    <span ng-show="registerForm.email.$touched && registerForm.email.$invalid">Valid Email required</span>
+    <br><br>
+
+    Password: 
+    <input type="password" name="password" ng-model="registerData.password" required ng-minlength="6">
+    <span ng-show="registerForm.password.$touched && registerForm.password.$error.required">Password required</span>
+    <span ng-show="registerForm.password.$error.minlength">Min 6 characters</span>
+    <br><br>
+
+    Confirm Password: 
+    <input type="password" name="confirmPassword" ng-model="registerData.confirmPassword" required>
+    <span ng-show="registerForm.confirmPassword.$touched && registerData.password !== registerData.confirmPassword">
+      Passwords must match
+    </span>
+    <br><br>
+
+    <button type="submit" ng-disabled="registerForm.$invalid || registerData.password !== registerData.confirmPassword">
+      Register
+    </button>
+  </form>
+
+  <script>
+    var app = angular.module("authApp", []);
+    app.controller("AuthCtrl", function($scope) {
+      $scope.loginData = {};
+      $scope.registerData = {};
+
+      $scope.login = function(isValid) {
+        if(isValid) {
+          alert("Login Successful! Email: " + $scope.loginData.email);
+        }
+      };
+
+      $scope.register = function(isValid) {
+        if(isValid && $scope.registerData.password === $scope.registerData.confirmPassword) {
+          alert("Registration Successful! Name: " + $scope.registerData.name + 
+                " | Email: " + $scope.registerData.email);
+        }
+      };
+    });
+  </script>
+
+</body>
+</html>
